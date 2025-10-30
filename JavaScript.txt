@@ -1,0 +1,71 @@
+// متغير لحساب عدد التحميلات
+let downloadCount = localStorage.getItem('downloadCount') || 0;
+
+// تحديث العداد عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    updateDownloadCount();
+});
+
+// دالة تحديث العداد
+function updateDownloadCount() {
+    document.getElementById('downloadCount').textContent = downloadCount;
+}
+
+// دالة تحميل الملف
+function downloadFile() {
+    // اسم ملف الـ EXE - ضع اسم الملف الحقيقي هنا
+    const fileName = 'ArabicTextConverter.exe';
+    
+    // رابط التحميل - ضع الرابط الحقيقي هنا
+    const fileUrl = 'files/' + fileName;
+    
+    // إنشاء رابط تحميل
+    const link = document.createElement('a');
+    link.href = fileUrl;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // زيادة عدد التحميلات
+    downloadCount++;
+    localStorage.setItem('downloadCount', downloadCount);
+    updateDownloadCount();
+    
+    // إرسال بيانات التحميل للسيرفر (اختياري)
+    sendDownloadData();
+}
+
+// دالة إرسال بيانات التحميل للسيرفر
+function sendDownloadData() {
+    // هنا يمكنك إضافة كود لإرسال بيانات التحميل للسيرفر
+    // مثال باستخدام fetch:
+    /*
+    fetch('/api/download', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            timestamp: new Date().toISOString(),
+            count: downloadCount
+        })
+    });
+    */
+}
+
+// تهيئة العداد من السيرفر عند التحميل (اختياري)
+function initializeCounter() {
+    // هنا يمكنك جلب عدد التحميلات الحقيقي من السيرفر
+    /*
+    fetch('/api/download-count')
+        .then(response => response.json())
+        .then(data => {
+            downloadCount = data.count;
+            updateDownloadCount();
+        });
+    */
+}
+
+// استدعاء التهيئة
+initializeCounter();
