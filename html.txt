@@ -13,6 +13,7 @@
                 <h1>محول النص العربي</h1>
                 <span>lvpfh</span>
             </div>
+            <button class="upload-btn" onclick="showUploadModal()">رفع</button>
         </nav>
     </header>
 
@@ -29,7 +30,7 @@
                             <span>تحميل</span>
                         </div>
                         <button class="download-btn" onclick="downloadFile()">
-                            تحميل البرنامج (EXE)
+Download for Windows
                         </button>
                     </div>
                 </div>
@@ -53,6 +54,33 @@
             </div>
         </section>
     </main>
+
+    <!-- نافذة الرفع -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>رفع ملف جديد</h3>
+                <span class="close" onclick="closeUploadModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div id="loginSection">
+                    <p>تسجيل دخول المطور</p>
+                    <input type="password" id="password" placeholder="كلمة المرور" class="password-input">
+                    <button onclick="checkPassword()" class="login-btn">دخول</button>
+                    <p id="loginError" class="error-message"></p>
+                </div>
+                <div id="uploadSection" style="display: none;">
+                    <p>اختر الملف الذي تريد رفعه:</p>
+                    <input type="file" id="fileInput" class="file-input">
+                    <div class="upload-actions">
+                        <button onclick="uploadFile()" class="upload-confirm-btn">رفع الملف</button>
+                        <button onclick="closeUploadModal()" class="upload-cancel-btn">إلغاء</button>
+                    </div>
+                    <div id="uploadStatus" class="upload-status"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div class="container">

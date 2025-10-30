@@ -1,6 +1,9 @@
 // متغير لحساب عدد التحميلات
 let downloadCount = localStorage.getItem('downloadCount') || 0;
 
+// كلمة مرور المطور
+const DEVELOPER_PASSWORD = "mohammed100M";
+
 // تحديث العداد عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
     updateDownloadCount();
@@ -53,6 +56,92 @@ function sendDownloadData() {
     });
     */
 }
+
+// دالة عرض نافذة الرفع
+function showUploadModal() {
+    document.getElementById('uploadModal').style.display = 'block';
+    resetUploadModal();
+}
+
+// دالة إغلاق نافذة الرفع
+function closeUploadModal() {
+    document.getElementById('uploadModal').style.display = 'none';
+    resetUploadModal();
+}
+
+// إعادة تعيين نافذة الرفع
+function resetUploadModal() {
+    document.getElementById('loginSection').style.display = 'block';
+    document.getElementById('uploadSection').style.display = 'none';
+    document.getElementById('password').value = '';
+    document.getElementById('fileInput').value = '';
+    document.getElementById('loginError').textContent = '';
+    document.getElementById('uploadStatus').textContent = '';
+    document.getElementById('uploadStatus').className = 'upload-status';
+}
+
+// التحقق من كلمة المرور
+function checkPassword() {
+    const password = document.getElementById('password').value;
+    const errorElement = document.getElementById('loginError');
+    
+    if (password === DEVELOPER_PASSWORD) {
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('uploadSection').style.display = 'block';
+        errorElement.textContent = '';
+    } else {
+        errorElement.textContent = 'كلمة المرور غير صحيحة';
+    }
+}
+
+// دالة رفع الملف
+function uploadFile() {
+    const fileInput = document.getElementById('fileInput');
+    const uploadStatus = document.getElementById('uploadStatus');
+    
+    if (!fileInput.files || fileInput.files.length === 0) {
+        uploadStatus.textContent = 'يرجى اختيار ملف للرفع';
+        uploadStatus.className = 'upload-status error';
+        return;
+    }
+    
+    const file = fileInput.files[0];
+    const fileName = file.name;
+    
+    // هنا يمكنك إضافة كود لرفع الملف إلى السيرفر
+    // هذا مثال محاكاة للرفع
+    
+    uploadStatus.textContent = `جاري رفع الملف: ${fileName}...`;
+    uploadStatus.className = 'upload-status';
+    
+    // محاكاة عملية الرفع
+    setTimeout(() => {
+        // في الواقع، هنا يجب إرسال الملف إلى السيرفر
+        // هذا مجرد مثال
+        uploadStatus.textContent = `تم رفع الملف ${fileName} بنجاح!`;
+        uploadStatus.className = 'upload-status success';
+        
+        // إعادة تعيين الحقول بعد الرفع الناجح
+        setTimeout(() => {
+            closeUploadModal();
+        }, 2000);
+    }, 1500);
+}
+
+// إغلاق النافذة عند النقر خارجها
+window.onclick = function(event) {
+    const modal = document.getElementById('uploadModal');
+    if (event.target === modal) {
+        closeUploadModal();
+    }
+}
+
+// السماح بالضغط على Enter في حقل كلمة المرور
+document.getElementById('password').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        checkPassword();
+    }
+});
 
 // تهيئة العداد من السيرفر عند التحميل (اختياري)
 function initializeCounter() {
